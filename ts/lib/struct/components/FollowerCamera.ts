@@ -1,6 +1,6 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { Component } from "./Component.js"
+import { Component } from "./Component"
 
 export class FollowerCamera extends Component {
     name: "LobbyBehaviour";
@@ -11,12 +11,12 @@ export class FollowerCamera extends Component {
 
         this.name = "LobbyBehaviour";
         this.classname = "FollowerCamera";
-        
+
         if (typeof datalen !== "undefined" && typeof data !== "undefined") {
             this.OnSpawn(datalen, data);
         }
     }
-    
+
     OnSpawn(datalen: number, data: Buffer): void {
 
     }

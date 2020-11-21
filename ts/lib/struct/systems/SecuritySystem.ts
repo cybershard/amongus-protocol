@@ -1,11 +1,11 @@
 import {
     SystemType
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { BufferReader } from "../../util/BufferReader.js";
-import { BufferWriter } from "../../util/BufferWriter.js";
+import { BufferReader } from "../../util/BufferReader";
+import { BufferWriter } from "../../util/BufferWriter";
 
-import { SystemStatus } from "./SystemStatus.js"
+import { SystemStatus } from "./SystemStatus"
 
 export class SecuritySystem extends SystemStatus {
     type: SystemType.Security;
@@ -14,7 +14,7 @@ export class SecuritySystem extends SystemStatus {
 
     constructor() {
         super();
-        
+
         this.type = SystemType.Security;
 
         this.is_active = false;

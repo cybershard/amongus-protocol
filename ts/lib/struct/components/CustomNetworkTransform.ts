@@ -1,15 +1,15 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { Component } from "./Component.js"
+import { Component } from "./Component"
 
-import { BufferReader } from "../../util/BufferReader.js"
-import { BufferWriter } from "../../util/BufferWriter.js";
+import { BufferReader } from "../../util/BufferReader"
+import { BufferWriter } from "../../util/BufferWriter";
 
 import {
     Vector2
-} from "../../interfaces/Types.js"
+} from "../../interfaces/Types"
 
-import { LerpValue, UnlerpValue } from "../../util/Lerp.js";
+import { LerpValue, UnlerpValue } from "../../util/Lerp";
 
 import {
     DataID,
@@ -17,7 +17,7 @@ import {
     PacketID,
     PayloadID,
     RPCID
-} from "../../../index.js";
+} from "../../../index";
 
 export interface CustomNetworkTransform extends Component {
     on(event: "move", listener: (transform: CustomNetworkTransform) => void);
@@ -102,7 +102,7 @@ export class CustomNetworkTransform extends Component {
     async move(position: Vector2, velocity: Vector2) {
         const data = new BufferWriter;
         this.sequence++;
-        
+
         if (this.sequence > 0xFFFF) {
             this.sequence -= 0x10000;
         }
@@ -112,7 +112,7 @@ export class CustomNetworkTransform extends Component {
         data.uint16LE(UnlerpValue(position.y, -40, 40) * 65535);
         data.uint16LE(UnlerpValue(velocity.x, -40, 40) * 65535);
         data.uint16LE(UnlerpValue(velocity.x, -40, 40) * 65535);
-        
+
         await this.client.send({
             op: PacketID.Unreliable,
             payloads: [

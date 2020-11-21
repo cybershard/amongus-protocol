@@ -1,11 +1,11 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { Component } from "./Component.js"
-import { BufferReader } from "../../util/BufferReader.js"
+import { Component } from "./Component"
+import { BufferReader } from "../../util/BufferReader"
 
 import {
     uint8
-} from "../../interfaces/Types.js"
+} from "../../interfaces/Types"
 
 import {
     ColourID,
@@ -16,8 +16,8 @@ import {
     PetID,
     RPCID,
     SkinID
-} from "../../../index.js";
-import { BufferWriter } from "../../util/BufferWriter.js";
+} from "../../../index";
+import { BufferWriter } from "../../util/BufferWriter";
 import { write } from "fs";
 
 interface PlayerControlOnSpawn {
@@ -35,12 +35,12 @@ export class PlayerControl extends Component {
 
         this.name = "Player";
         this.classname = "PlayerControl";
-        
+
         if (typeof datalen !== "undefined" && typeof data !== "undefined") {
             this.OnSpawn(datalen, data);
         }
     }
-    
+
     OnSpawn(datalen: number, data: Buffer): PlayerControlOnSpawn {
         const reader = new BufferReader(data);
 
@@ -126,12 +126,12 @@ export class PlayerControl extends Component {
                 ]
             });
 
-            await this.client.awaitPayload(payload => 
+            await this.client.awaitPayload(payload =>
                 payload.payloadid === PayloadID.GameData
                     && payload.parts.some(part => part.type === MessageID.RPC && part.rpcid === RPCID.SetColour));
         }
     }
-    
+
     async setName(name: string) {
         if (this.client.clientid === this.client.game.hostid) {
             await this.client.send({
@@ -171,12 +171,12 @@ export class PlayerControl extends Component {
                 ]
             });
 
-            await this.client.awaitPayload(payload => 
+            await this.client.awaitPayload(payload =>
                 payload.payloadid === PayloadID.GameData
                 && payload.parts.some(part => part.type === MessageID.RPC && part.handlerid === this.netid && part.rpcid === RPCID.SetName));
         }
     }
-    
+
     async setHat(hat: HatID) {
         await this.client.send({
             op: PacketID.Reliable,
@@ -196,7 +196,7 @@ export class PlayerControl extends Component {
             ]
         });
     }
-    
+
     async setSkin(skin: SkinID) {
         await this.client.send({
             op: PacketID.Reliable,
@@ -216,7 +216,7 @@ export class PlayerControl extends Component {
             ]
         });
     }
-    
+
     async setPet(pet: PetID) {
         await this.client.send({
             op: PacketID.Reliable,

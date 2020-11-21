@@ -1,15 +1,15 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { GameObject } from "./GameObject.js"
+import { GameObject } from "./GameObject"
 
-import { FollowerCamera } from "../components/FollowerCamera.js"
+import { FollowerCamera } from "../components/FollowerCamera"
 
 import {
     SpawnID
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { ComponentData } from "../../interfaces/Packets.js"
-import { Game } from "../Game.js"
+import { ComponentData } from "../../interfaces/Packets"
+import { Game } from "../Game"
 
 export class LobbyBehaviour extends GameObject {
     spawnid: SpawnID.LobbyBehaviour;
@@ -25,7 +25,7 @@ export class LobbyBehaviour extends GameObject {
         this.components = [
             new FollowerCamera(client, components[0].netid, components[0].datalen, components[0].data)
         ];
-        
+
         if (parent instanceof GameObject) {
             parent.addChild(this);
         }

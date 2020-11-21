@@ -1,11 +1,11 @@
 import {
     SystemType
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { BufferReader } from "../../util/BufferReader.js";
-import { BufferWriter } from "../../util/BufferWriter.js";
+import { BufferReader } from "../../util/BufferReader";
+import { BufferWriter } from "../../util/BufferWriter";
 
-import { SystemStatus } from "./SystemStatus.js"
+import { SystemStatus } from "./SystemStatus"
 
 export class LifeSuppSystem extends SystemStatus {
     type: SystemType.O2;
@@ -16,7 +16,7 @@ export class LifeSuppSystem extends SystemStatus {
 
     constructor() {
         super();
-        
+
         this.type = SystemType.O2;
 
         this.countdown = 10000;
@@ -30,7 +30,7 @@ export class LifeSuppSystem extends SystemStatus {
 
     OnDeserialize(reader: BufferReader) {
         this.countdown = reader.floatLE();
-        
+
         if (reader.offset < reader.size) {
             this.num_consoles = reader.packed();
 

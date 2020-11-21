@@ -1,8 +1,8 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { Component } from "./Component.js"
-import { BufferReader } from "../../util/BufferReader.js"
-import { BufferWriter } from "../../util/BufferWriter.js";
+import { Component } from "./Component"
+import { BufferReader } from "../../util/BufferReader"
+import { BufferWriter } from "../../util/BufferWriter";
 import { write } from "fs";
 
 export interface VoteBanSystem {
@@ -31,7 +31,7 @@ export class VoteBanSystem extends Component {
 
         this.num_voted = 0;
         this.votes = new Map;
-        
+
         if (typeof datalen !== "undefined" && typeof data !== "undefined") {
             this.OnSpawn(datalen, data);
         }

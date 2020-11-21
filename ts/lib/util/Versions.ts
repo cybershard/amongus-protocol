@@ -1,4 +1,4 @@
-import { VersionInfo } from "../interfaces/VersionInfo.js"
+import { VersionInfo } from "../interfaces/VersionInfo"
 
 export function EncodeVersion(info: VersionInfo): number {
     return (info.year * 25000) +

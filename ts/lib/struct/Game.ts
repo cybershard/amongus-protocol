@@ -1,6 +1,6 @@
 import {
     AmongusClient
-} from "../Client.js";
+} from "../Client";
 
 import {
     AlterGameTag,
@@ -9,22 +9,22 @@ import {
     PayloadID,
     RPCID,
     SpawnID
-} from "../constants/Enums.js";
+} from "../constants/Enums";
 
 import {
     GameOptionsData,
     SceneChangeLocation,
     VotePlayerState
-} from "../interfaces/Packets.js";
+} from "../interfaces/Packets";
 
-import { Component } from "./components/Component.js";
+import { Component } from "./components/Component";
 
-import { GameData } from "./objects/GameData.js";
-import { GameObject } from "./objects/GameObject.js";
-import { LobbyBehaviour } from "./objects/LobbyBehaviour.js";
-import { MeetingHub } from "./objects/MeetingHub.js";
+import { GameData } from "./objects/GameData";
+import { GameObject } from "./objects/GameObject";
+import { LobbyBehaviour } from "./objects/LobbyBehaviour";
+import { MeetingHub } from "./objects/MeetingHub";
 
-import { PlayerClient } from "./PlayerClient.js";
+import { PlayerClient } from "./PlayerClient";
 
 export interface Game {
     on(event: "spawn", listener: (object: GameObject) => void);
@@ -46,7 +46,7 @@ export interface Game {
 export class Game extends GameObject {
     ip: string;
     port: number;
-    
+
     code: number;
     hostid: number;
 
@@ -107,7 +107,7 @@ export class Game extends GameObject {
 
         this.options = null;
         this.visibility = "private";
-        
+
         clients.forEach(clientid => {
             this.clients.set(clientid, new PlayerClient(client, clientid));
         });
@@ -119,7 +119,7 @@ export class Game extends GameObject {
 
     addChild(object: GameObject) {
         super.addChild(object);
-        
+
         this.registerComponents(object);
         this.emit("spawn", object);
     }
@@ -162,7 +162,7 @@ export class Game extends GameObject {
                     }
                 ]
             });
-            
+
             this._syncSettings(options);
         }
     }
@@ -192,7 +192,7 @@ export class Game extends GameObject {
                     }
                 ]
             });
-            
+
             this._setImposters(imposters);
         }
     }
@@ -215,7 +215,7 @@ export class Game extends GameObject {
                     }
                 ]
             });
-            
+
             this._setVisibility(visibility);
         }
     }
@@ -224,7 +224,7 @@ export class Game extends GameObject {
         if (sequence > this.startCounterSeq) {
             this.startCounterSeq = sequence;
             this.startCount = counter;
-            
+
 
             this.emit("startCount", counter);
         }
@@ -252,14 +252,14 @@ export class Game extends GameObject {
                     }
                 ]
             });
-            
+
             this._setStartCounter(sequence, counter);
         }
     }
 
     _playerJoin(clientid: number) {
         const client = new PlayerClient(this.client, clientid);
-        
+
         this.clients.set(client.clientid, client);
         this.emit("playerJoin", client);
     }
@@ -327,7 +327,7 @@ export class Game extends GameObject {
                     }
                 ]
             });*/
-            
+
             this._sceneChange(clientid, location);
         }
     }
@@ -346,7 +346,7 @@ export class Game extends GameObject {
 
     _finish() {
         this.started = false;
-        
+
         this.emit("finish");
     }
 
@@ -363,7 +363,7 @@ export class Game extends GameObject {
             this.netcomponents.set(component.netid, component);
         }
     }
-    
+
     /**
      * Find a player by their name.
      */
@@ -372,7 +372,7 @@ export class Game extends GameObject {
             if (!client.Player || client.removed) continue;
 
             const playerData = this.GameData.GameData.players.get(client.Player.PlayerControl.playerId);
-            
+
             if (playerData && playerData.name === username) {
                 return client;
             }

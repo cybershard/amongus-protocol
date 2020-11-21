@@ -11,9 +11,9 @@ import {
     float,
     double,
     packed
-} from "../interfaces/Types.js"
- 
-import { getFloat32} from "./Float16.js"
+} from "../interfaces/Types"
+
+import { getFloat32} from "./Float16"
 
 /**
  * Represents a buffer reader.
@@ -42,7 +42,7 @@ export class BufferReader {
     [util.inspect.custom]() {
         return this.buffer;
     }
-    
+
     slice(start?: number, len?: number): BufferReader {
         return new BufferReader(this.buffer.slice(start, len));
     }
@@ -53,14 +53,14 @@ export class BufferReader {
     get left() {
         return this.size - this.offset;
     }
-    
+
     /**
      * The size of the buffer in bytes.
      */
     get size() {
         return this.buffer.byteLength;
     }
-    
+
     /**
      * Goto a certain position in the buffer.
      */
@@ -86,7 +86,7 @@ export class BufferReader {
 
         return val;
     }
-    
+
     /**
      * Read a Little-Endian unsigned 32 bit integer.
      */
@@ -96,7 +96,7 @@ export class BufferReader {
 
         return val;
     }
-    
+
     /**
      * Read a Big-Endian 32 bit integer.
      */
@@ -106,7 +106,7 @@ export class BufferReader {
 
         return val;
     }
-    
+
     /**
      * Read a Big-Endian 32 bit integer.
      */
@@ -116,7 +116,7 @@ export class BufferReader {
 
         return val;
     }
-    
+
     /**
      * Read a Big-Endian unsigned 16 bit integer.
      */
@@ -126,7 +126,7 @@ export class BufferReader {
 
         return val;
     }
-    
+
     /**
      * Read a Little-Endian unsigned 16 bit integer.
      */
@@ -146,7 +146,7 @@ export class BufferReader {
 
         return val;
     }
-    
+
     /**
      * Read a Little-Endian 16 bit integer.
      */
@@ -156,7 +156,7 @@ export class BufferReader {
 
         return val;
     }
-    
+
     /**
      * Read an unsigned 8 bit integer.
      */
@@ -166,7 +166,7 @@ export class BufferReader {
 
         return val;
     }
-    
+
     /**
      * Read an 8 bit integer.
      */
@@ -183,7 +183,7 @@ export class BufferReader {
     byte(): byte {
         return this.uint8();
     }
-    
+
     /**
      * Read several bytes.
      */
@@ -294,7 +294,7 @@ export class BufferReader {
 
         if (!length) {
             const len = this.packed();
-            
+
             return this.string(len);
         }
 

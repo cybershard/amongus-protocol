@@ -1,6 +1,6 @@
 import util from "util"
 
-import { parsePacket } from "../lib/Parser.js"
+import { parsePacket } from "../lib/Parser"
 
 const serverbound = process.argv[2] === "server";
 const bytes = process.argv.slice(serverbound ? 3 : 2).join("");

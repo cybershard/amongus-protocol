@@ -1,18 +1,18 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { GameObject } from "./GameObject.js"
+import { GameObject } from "./GameObject"
 
-import { Component } from "../components/Component.js"
+import { Component } from "../components/Component"
 
-import { GameData as GameDataComponent } from "../components/GameData.js"
-import { VoteBanSystem } from "../components/VoteBanSystem.js"
+import { GameData as GameDataComponent } from "../components/GameData"
+import { VoteBanSystem } from "../components/VoteBanSystem"
 
 import {
     SpawnID
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { ComponentData } from "../../interfaces/Packets.js"
-import { Game } from "../Game.js"
+import { ComponentData } from "../../interfaces/Packets"
+import { Game } from "../Game"
 
 export class GameData extends GameObject {
     spawnid: SpawnID.GameData;
@@ -22,9 +22,9 @@ export class GameData extends GameObject {
         super(client, parent);
 
         this.spawnid = SpawnID.GameData;
-        
+
         this.id = null;
-        
+
         this.components = [
             new GameDataComponent(client, components[0].netid, components[0].datalen, components[0].data),
             new VoteBanSystem(client, components[1].netid, components[1].datalen, components[1].data)

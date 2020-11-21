@@ -1,4 +1,4 @@
-import { composePacket } from "../lib/Compose.js"
+import { composePacket } from "../lib/Compose"
 
 const json = process.argv.slice(2).join(" ");
 const to_hex = (val: number) => val.toString(16);

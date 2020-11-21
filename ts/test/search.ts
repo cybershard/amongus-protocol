@@ -2,7 +2,7 @@ import {
     AmongusClient,
     MapID,
     DebugOptions
-} from "../index.js"
+} from "../index"
 
 (async () => {
     const client = new AmongusClient({

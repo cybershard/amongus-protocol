@@ -1,11 +1,11 @@
 import {
     SystemType
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { BufferReader } from "../../util/BufferReader.js";
-import { BufferWriter } from "../../util/BufferWriter.js";
+import { BufferReader } from "../../util/BufferReader";
+import { BufferWriter } from "../../util/BufferWriter";
 
-import { SystemStatus } from "./SystemStatus.js"
+import { SystemStatus } from "./SystemStatus"
 
 export class HQHudOverrideSystem extends SystemStatus {
     type: SystemType.Communications;
@@ -15,7 +15,7 @@ export class HQHudOverrideSystem extends SystemStatus {
     consoles: [number, number][];
     num_fixed: number;
     fixed_consoles: number[];
-    
+
     constructor() {
         super();
 
@@ -38,16 +38,16 @@ export class HQHudOverrideSystem extends SystemStatus {
         for (let i = 0; i < this.num_consoles; i++) {
             let playerId = reader.uint8();
             let console = reader.uint8();
-        
+
             this.consoles.push([playerId, console]);
         }
-        
+
         this.num_fixed = reader.packed();
         this.fixed_consoles = [];
-        
+
         for (let i = 0; i < this.num_fixed; i++) {
             let fixed = reader.uint8();
-        
+
             this.fixed_consoles.push(fixed);
         }
     }

@@ -1,11 +1,11 @@
 import {
     SystemType
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { BufferReader } from "../../util/BufferReader.js";
-import { BufferWriter } from "../../util/BufferWriter.js";
+import { BufferReader } from "../../util/BufferReader";
+import { BufferWriter } from "../../util/BufferWriter";
 
-import { SystemStatus } from "./SystemStatus.js"
+import { SystemStatus } from "./SystemStatus"
 
 export class SwitchSystem extends SystemStatus {
     type: SystemType.Electrical;
@@ -16,7 +16,7 @@ export class SwitchSystem extends SystemStatus {
 
     constructor() {
         super();
-        
+
         this.type = SystemType.Electrical;
 
         this.expectedSwitches = 0;

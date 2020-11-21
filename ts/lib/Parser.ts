@@ -5,9 +5,9 @@ import {
     PacketID,
     PayloadID,
     RPCID
-} from "./constants/Enums.js"
+} from "./constants/Enums"
 
-import { DisconnectMessages } from "./constants/DisconnectMessages.js"
+import { DisconnectMessages } from "./constants/DisconnectMessages"
 
 import {
     Packet,
@@ -23,10 +23,10 @@ import {
     GameListCount,
     GameListClientBoundTag,
     SceneChangeLocation
-} from "./interfaces/Packets.js"
+} from "./interfaces/Packets"
 
-import { BufferReader } from "./util/BufferReader.js"
-import { LerpValue } from "./util/Lerp.js";
+import { BufferReader } from "./util/BufferReader"
+import { LerpValue } from "./util/Lerp";
 
 export function parseGameOptions(reader: BufferReader): GameOptionsData {
     let options: Partial<GameOptionsData> = {}
@@ -97,7 +97,7 @@ export function parsePlayerData(reader: BufferReader): ParsedPlayerGameData {
     player.dead = (player.flags & PlayerDataFlags.IsDead) !== 0;
     player.num_tasks = reader.uint8();
 
-    player.tasks = reader.list(reader => { 
+    player.tasks = reader.list(reader => {
         const taskid = reader.packed();
         const completed = reader.bool();
 
@@ -114,7 +114,7 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
     const reader = new BufferReader(buffer);
 
     let packet: Partial<Packet> = {}
-    
+
     packet.op = reader.byte();
     packet.bound = bound;
 
@@ -139,7 +139,7 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                     const payload_end = payload_start + payload_len;
 
                     payload.bound = packet.bound;
-    
+
                     switch (payload.payloadid) {
                         case PayloadID.HostGame:
                             if (payload.bound === "client") {
@@ -151,11 +151,11 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                         case PayloadID.JoinGame:
                             if (payload.bound === "client") {
                                 payload.error = payload_len !== 12 && payload_len !== 18; // For players joining the game.
-    
+
                                 switch (payload.error) { // Couldn't get typings to work with if statements so I have to deal with switch/case..
                                     case true:
                                         const dc = parseDisconnect(reader);
-        
+
                                         payload.reason = dc.reason;
                                         payload.message = dc.message;
                                         break;
@@ -165,10 +165,10 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                                         payload.hostid = reader.uint32LE();
                                         break;
                                 }
-    
+
                                 if (payload.error) {
                                     const dc = parseDisconnect(reader);
-    
+
                                     payload.reason = dc.reason;
                                     payload.message = dc.message;
                                 }
@@ -193,20 +193,20 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                         case PayloadID.GameData:
                         case PayloadID.GameDataTo:
                             payload.code = reader.int32LE();
-    
+
                             if (payload.payloadid === PayloadID.GameDataTo) {
                                 payload.recipient = reader.packed();
                             }
-    
+
                             payload.parts = [];
-    
+
                             while (reader.offset < payload_end) {
                                 let part: Partial<GameDataMessage> = {}
                                 const part_len = reader.uint16LE();
                                 part.type = reader.uint8();
                                 const part_start = reader.offset;
                                 const part_end = part_start + part_len;
-    
+
                                 switch (part.type) {
                                     case MessageID.Data:
                                         part.netid = reader.packed();
@@ -216,7 +216,7 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                                     case MessageID.RPC:
                                         part.handlerid = reader.packed();
                                         part.rpcid = reader.uint8();
-    
+
                                         switch (part.rpcid) {
                                             case RPCID.PlayAnimation:
                                                 part.animation = reader.byte();
@@ -320,7 +320,7 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                                                 break;
                                             case RPCID.UpdateGameData:
                                                 part.players = [];
-    
+
                                                 while (reader.offset < part_end) {
                                                     reader.jump(0x02); // Skip player data length.
                                                     part.players.push(parsePlayerData(reader));
@@ -334,17 +334,17 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                                         part.flags = reader.byte();
                                         part.num_components = reader.packed();
                                         part.components = [];
-    
+
                                         for (let i = 0; i < part.num_components; i++) {
                                             const component: Partial<ComponentData> = {}
                                             component.netid = reader.packed();
                                             component.datalen = reader.uint16LE();
                                             component.type = reader.uint8();
-    
+
                                             component.data = reader.buffer.slice(reader.offset, reader.offset + component.datalen);
-    
+
                                             reader.jump(component.datalen);
-    
+
                                             part.components.push(component as ComponentData);
                                         }
                                         break;
@@ -361,7 +361,7 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                                     case MessageID.ChangeSettings:
                                         break;
                                 }
-    
+
                                 reader.goto(part_end);
                                 payload.parts.push(part as GameDataMessage);
                             }
@@ -412,7 +412,7 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                                 server.ip = reader.bytes(0x04).join(".");
                                 server.port = reader.uint16LE();
                                 server.num_players = reader.packed();
-    
+
                                 payload.servers.push(server as MasterServer);
                             }
                             break;
@@ -441,7 +441,7 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                                             game.map = reader.uint8();
                                             game.imposters = reader.uint8();
                                             game.max_players = reader.uint8();
-            
+
                                             payload.games.push(game as GameListGame);
                                             break;
                                         }
@@ -452,7 +452,7 @@ export function parsePacket(buffer, bound: "server" | "client" = "client"): Pack
                                         count[MapID.TheSkeld] = reader.uint32LE();
                                         count[MapID.MiraHQ] = reader.uint32LE();
                                         count[MapID.Polus] = reader.uint32LE();
-                                        
+
                                         payload.count = count as GameListCount;
                                         break;
                                 }

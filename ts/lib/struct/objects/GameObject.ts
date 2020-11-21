@@ -1,8 +1,8 @@
 import { EventEmitter } from "events";
-import { AmongusClient } from "../../Client.js"
-import { PacketID, PayloadID, SpawnID } from "../../constants/Enums.js";
-import { UnlerpValue } from "../../util/Lerp.js";
-import { Component } from "../components/Component.js";
+import { AmongusClient } from "../../Client"
+import { PacketID, PayloadID, SpawnID } from "../../constants/Enums";
+import { UnlerpValue } from "../../util/Lerp";
+import { Component } from "../components/Component";
 
 export interface GameObject {
     on(event: "spawn", listener: (object: GameObject) => void);
@@ -16,10 +16,10 @@ export class GameObject extends EventEmitter {
     children: GameObject[];
     parent: AmongusClient|GameObject;
     components: Component[];
-    
+
     constructor (protected client: AmongusClient, parent: AmongusClient|GameObject) {
         super();
-        
+
         this.parentid = parent.id;
 
         this.children = [];
@@ -56,7 +56,7 @@ export class GameObject extends EventEmitter {
                 components.push(component);
             }
         }
-        
+
         return components.length ? components : null;
     }
 
@@ -97,7 +97,7 @@ export class GameObject extends EventEmitter {
             object.parent = this;
         }
     }
-    
+
     setParent(parent: GameObject) {
         if (this.parent instanceof AmongusClient) throw new Error("Could not set parent, object is global.");
 

@@ -1,22 +1,22 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { Component } from "./Component.js"
+import { Component } from "./Component"
 
 import {
     SystemType
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { SwitchSystem } from "../systems/SwitchSystem.js";
-import { MedScanSystem } from "../systems/MedScanSystem.js";
-import { ReactorSystem } from "../systems/ReactorSystem.js";
-import { LifeSuppSystem } from "../systems/LifeSuppSystem.js";
-import { SecuritySystem } from "../systems/SecuritySystem.js";
-import { HQHudOverrideSystem } from "../systems/HQHudOverrideSystem.js";
-import { HudOverrideSystem } from "../systems/HudOverrideSystem.js";
-import { DoorsSystem } from "../systems/DoorsSystem.js";
-import { SabotageSystem } from "../systems/SabotageSystem.js";
-import { BufferReader } from "../../util/BufferReader.js";
-import { DeconSystem } from "../systems/DeconSystem.js";
+import { SwitchSystem } from "../systems/SwitchSystem";
+import { MedScanSystem } from "../systems/MedScanSystem";
+import { ReactorSystem } from "../systems/ReactorSystem";
+import { LifeSuppSystem } from "../systems/LifeSuppSystem";
+import { SecuritySystem } from "../systems/SecuritySystem";
+import { HQHudOverrideSystem } from "../systems/HQHudOverrideSystem";
+import { HudOverrideSystem } from "../systems/HudOverrideSystem";
+import { DoorsSystem } from "../systems/DoorsSystem";
+import { SabotageSystem } from "../systems/SabotageSystem";
+import { BufferReader } from "../../util/BufferReader";
+import { DeconSystem } from "../systems/DeconSystem";
 
 export class ShipStatus extends Component {
     name: "ShipStatus";
@@ -40,7 +40,7 @@ export class ShipStatus extends Component {
 
         this.name = "ShipStatus";
         this.classname = "ShipStatus";
-        
+
         if (typeof datalen !== "undefined" && typeof data !== "undefined") {
             this.OnSpawn(datalen, data);
         }
@@ -60,7 +60,7 @@ export class ShipStatus extends Component {
 
     OnDeserialize(datalen: number, data: Buffer): void {
         const reader = new BufferReader(data);
-        
+
         const updateMask = reader.packed();
 
         for (let i = 0; i < 30; i++) {

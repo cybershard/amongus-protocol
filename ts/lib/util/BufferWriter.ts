@@ -1,6 +1,6 @@
 import util from "util"
 
-import { BufferWriterOptions } from "../interfaces/BufferWriterOptions.js"
+import { BufferWriterOptions } from "../interfaces/BufferWriterOptions"
 
 import {
     byte,
@@ -13,9 +13,9 @@ import {
     float,
     double,
     packed
-} from "../interfaces/Types.js"
+} from "../interfaces/Types"
 
-import { getFloat16 } from "./Float16.js";
+import { getFloat16 } from "./Float16";
 
 /**
  * Represents a buffer writer.
@@ -35,7 +35,7 @@ export class BufferWriter {
             ...options
         }
     }
-    
+
     [Symbol.toStringTag]() {
         return this.buffer.toString();
     }
@@ -132,7 +132,7 @@ export class BufferWriter {
 
         return this;
     }
-    
+
     /**
      * Write a Little-Endian 32 bit integer.
      */
@@ -168,7 +168,7 @@ export class BufferWriter {
 
         return this;
     }
-    
+
     /**
      * Write a Big-Endian 16 bit integer.
      */
@@ -180,7 +180,7 @@ export class BufferWriter {
 
         return this;
     }
-    
+
     /**
      * Write a Little-Endian 16 bit integer.
      */
@@ -223,7 +223,7 @@ export class BufferWriter {
     byte(val: byte) {
         return this.uint8(val);
     }
-    
+
     /**
      * Read a boolean.
      */
@@ -239,7 +239,7 @@ export class BufferWriter {
 
         return this.write(Buffer.from(bytes));
     }
-    
+
     /**
      * Write a buffer or buffer writer.
      */
@@ -341,7 +341,7 @@ export class BufferWriter {
         if (preflen) {
             this.packed(string.length);
         }
-        
+
         if (this.options.dynamic) this.expand(string.length);
 
         this.buffer.write(string, this.offset, "utf8");

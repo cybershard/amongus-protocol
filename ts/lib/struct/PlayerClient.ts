@@ -1,6 +1,6 @@
-import { AmongusClient } from "../Client.js"
+import { AmongusClient } from "../Client"
 
-import { Player } from "./objects/Player.js"
+import { Player } from "./objects/Player"
 
 import {
     ColourID,
@@ -13,15 +13,15 @@ import {
     SkinID,
     SystemType,
     TaskID
-} from "../constants/Enums.js"
+} from "../constants/Enums"
 
 import {
     Vector2
-} from "../interfaces/Types.js"
+} from "../interfaces/Types"
 
-import { PlayerTaskState, SceneChangeLocation } from "../interfaces/Packets.js"
-import { GameObject } from "./objects/GameObject.js"
-import { MeetingHub } from "./objects/MeetingHub.js"
+import { PlayerTaskState, SceneChangeLocation } from "../interfaces/Packets"
+import { GameObject } from "./objects/GameObject"
+import { MeetingHub } from "./objects/MeetingHub"
 
 export interface PlayerClient {
     on(event: "spawn", listener: (player: Player) => void);
@@ -71,7 +71,7 @@ export class PlayerClient extends GameObject {
         super.addChild(object);
 
         this.client.game.registerComponents(object);
-        
+
         if (object instanceof Player) this.emit("spawn", object);
     }
 
@@ -169,7 +169,7 @@ export class PlayerClient extends GameObject {
             ]
         });
     }
-    
+
     async vote(player: PlayerClient|"skip") {
         if (this.Player && !this.removed) {
             const meetinghub = this.client.game.findChild(object => object instanceof MeetingHub) as MeetingHub;

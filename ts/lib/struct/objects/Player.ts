@@ -1,18 +1,18 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { GameObject } from "./GameObject.js"
+import { GameObject } from "./GameObject"
 
-import { CustomNetworkTransform } from "../components/CustomNetworkTransform.js"
-import { PlayerControl } from "../components/PlayerControl.js"
-import { PlayerPhysics } from "../components/PlayerPhysics.js"
+import { CustomNetworkTransform } from "../components/CustomNetworkTransform"
+import { PlayerControl } from "../components/PlayerControl"
+import { PlayerPhysics } from "../components/PlayerPhysics"
 
 import {
     SpawnID
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { ComponentData } from "../../interfaces/Packets.js"
+import { ComponentData } from "../../interfaces/Packets"
 
-import { PlayerClient } from "../PlayerClient.js"
+import { PlayerClient } from "../PlayerClient"
 
 export class Player extends GameObject {
     spawnid: SpawnID.Player;
@@ -22,7 +22,7 @@ export class Player extends GameObject {
         super(client, parent);
 
         this.spawnid = SpawnID.Player;
-        
+
         this.id = null;
 
         this.components = [
@@ -30,7 +30,7 @@ export class Player extends GameObject {
             new PlayerPhysics(client, components[1].netid, components[1].datalen, components[1].data),
             new CustomNetworkTransform(client, components[2].netid, components[2].datalen, components[2].data)
         ];
-        
+
         if (parent instanceof GameObject) {
             parent.addChild(this);
         }

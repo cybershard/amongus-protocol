@@ -19,7 +19,7 @@ import {
     MapID,
     LanguageID,
     SpawnFlag
-} from "../constants/Enums.js"
+} from "../constants/Enums"
 
 import {
     bit,
@@ -37,7 +37,7 @@ import {
     code,
     float16,
     vector
-} from "./Types.js"
+} from "./Types"
 
 export interface BaseGameOptionsData {
     length: packed;

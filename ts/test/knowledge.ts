@@ -3,9 +3,9 @@ import {
     MasterServers,
     ColourID,
     DebugOptions
-} from "../index.js"
+} from "../index"
 
-import { GameData } from "../lib/struct/objects/GameData.js";
+import { GameData } from "../lib/struct/objects/GameData";
 
 (async () => {
     const client = new AmongusClient({

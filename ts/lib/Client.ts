@@ -3,10 +3,10 @@ import util from "util"
 
 import { EventEmitter } from "events"
 
-import { parsePacket } from "./Parser.js"
-import { composePacket } from "./Compose.js"
+import { parsePacket } from "./Parser"
+import { composePacket } from "./Compose"
 
-import { Code2Int } from "./util/Codes.js"
+import { Code2Int } from "./util/Codes"
 
 import {
     GameListGame,
@@ -16,7 +16,7 @@ import {
     GameListClientBoundTag,
     VotePlayerState,
     PlayerVoteAreaFlags
-} from "./interfaces/Packets.js"
+} from "./interfaces/Packets"
 
 import {
     AlterGameTag,
@@ -30,25 +30,25 @@ import {
     RPCID,
     SpawnID,
     TaskBarUpdate
-} from "./constants/Enums.js"
+} from "./constants/Enums"
 
-import { Game } from "./struct/Game.js"
-import { PlayerClient } from "./struct/PlayerClient.js"
+import { Game } from "./struct/Game"
+import { PlayerClient } from "./struct/PlayerClient"
 
-import { bitfield } from "./interfaces/Types.js"
-import { JoinOptions } from "./interfaces/JoinOptions.js"
+import { bitfield } from "./interfaces/Types"
+import { JoinOptions } from "./interfaces/JoinOptions"
 
-import { GameData } from "./struct/objects/GameData.js"
-import { LobbyBehaviour } from "./struct/objects/LobbyBehaviour.js"
-import { MeetingHub } from "./struct/objects/MeetingHub.js"
-import { Player } from "./struct/objects/Player.js"
-import { ShipStatus } from "./struct/objects/ShipStatus.js"
-import { HeadQuarters } from "./struct/objects/HeadQuarters.js"
-import { PlanetMap } from "./struct/objects/PlanetMap.js"
-import { AprilShipStatus } from "./struct/objects/AprilShipStatus.js"
+import { GameData } from "./struct/objects/GameData"
+import { LobbyBehaviour } from "./struct/objects/LobbyBehaviour"
+import { MeetingHub } from "./struct/objects/MeetingHub"
+import { Player } from "./struct/objects/Player"
+import { ShipStatus } from "./struct/objects/ShipStatus"
+import { HeadQuarters } from "./struct/objects/HeadQuarters"
+import { PlanetMap } from "./struct/objects/PlanetMap"
+import { AprilShipStatus } from "./struct/objects/AprilShipStatus"
 
-import { ClientOptions } from "./interfaces/ClientOptions.js"
-import { DebugOptions } from "./constants/DebugOptions.js"
+import { ClientOptions } from "./interfaces/ClientOptions"
+import { DebugOptions } from "./constants/DebugOptions"
 
 export declare interface AmongusClient {
     on(event: "packet", listener: (packet: Packet) => void);
@@ -64,12 +64,12 @@ export class AmongusClient extends EventEmitter {
     socket: dgram.Socket;
 
     id: number;
-    
+
     /**
      * The IP that the client is connected to.
      */
     ip: string;
-    
+
     /**
      * The port that the client is connected to.
      */
@@ -79,7 +79,7 @@ export class AmongusClient extends EventEmitter {
      * The incrementing nonce for the client.
      */
     nonce: number;
-    
+
     /**
      * The username of the client.
      */
@@ -117,7 +117,7 @@ export class AmongusClient extends EventEmitter {
 
     _disconnect() {
         this.emit("disconnect");
-        
+
         this.socket.removeAllListeners();
 
         this.socket = null;
@@ -161,12 +161,12 @@ export class AmongusClient extends EventEmitter {
 
         this._disconnect();
     }
-    
+
     _connect(ip: string, port: number) {
         this.socket = dgram.createSocket("udp4");
         this.ip = ip;
         this.port = port;
-        
+
         this.nonce = 1;
 
         this.socket.on("message", async buffer => {
@@ -218,7 +218,7 @@ export class AmongusClient extends EventEmitter {
                                 case PayloadID.RemovePlayer:
                                     if (payload.code === this.game.code) {
                                         const client = this.game.clients.get(payload.clientid);
-                                        
+
                                         if (client) {
                                             client.removed = true;
 
@@ -233,7 +233,7 @@ export class AmongusClient extends EventEmitter {
                                         this.clientid = payload.clientid;
 
                                         if (this.clientid === this.game.hostid) {
-                                            
+
                                         }
                                     }
                                     break;
@@ -275,7 +275,7 @@ export class AmongusClient extends EventEmitter {
                                                         case RPCID.MurderPlayer: {
                                                             const client = this.game.getPlayerByNetID(part.targetnetid);
                                                             const murderer = this.game.getPlayerByNetID(part.handlerid);
-                                                            
+
                                                             if (client && murderer) {
                                                                 client.dead = true;
 
@@ -500,11 +500,11 @@ export class AmongusClient extends EventEmitter {
                 this.nonce++;
                 break;
         }
-        
+
         const composed = composePacket(packet, "server");
-        
+
         await this._send(composed);
-        
+
         const format_buffer = [...composed].map(byte => "0".repeat(2 - byte.toString(16).length) + byte.toString(16)).join(" ");
 
         if (packet.op === PacketID.Reliable || packet.op === PacketID.Unreliable) {
@@ -533,7 +533,7 @@ export class AmongusClient extends EventEmitter {
         }
     }
 
-    async ack(nonce: number): Promise<void> { 
+    async ack(nonce: number): Promise<void> {
         await this.send({
             op: PacketID.Acknowledge,
             nonce
@@ -549,7 +549,7 @@ export class AmongusClient extends EventEmitter {
             username: username
         })) {
             this.username = username;
-            
+
             return true;
         }
 
@@ -603,7 +603,7 @@ export class AmongusClient extends EventEmitter {
             }
         }
     }
-    
+
     /**
      * Spawn the player in the joined game.
      */
@@ -625,7 +625,7 @@ export class AmongusClient extends EventEmitter {
             ]
         });
     }
-    
+
     /**
      * Search for game using specified settings.
      */

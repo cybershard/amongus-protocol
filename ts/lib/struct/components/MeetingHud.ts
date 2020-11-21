@@ -1,12 +1,12 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { Component } from "./Component.js"
-import { BufferReader } from "../../util/BufferReader.js"
+import { Component } from "./Component"
+import { BufferReader } from "../../util/BufferReader"
 
 import {
     VotePlayerState,
     PlayerVoteAreaFlags
-} from "../../interfaces/Packets.js";
+} from "../../interfaces/Packets";
 
 export interface MeetingHud {
     on(event: "update", listener: (states: Map<number, VotePlayerState>) => void);
@@ -20,7 +20,7 @@ export class MeetingHud extends Component {
 
     constructor(client: AmongusClient, netid: number, datalen?: number, data?: Buffer) {
         super(client, netid);
-        
+
         this.name = "MeetingHub";
         this.classname = "MeetingHud";
 
@@ -45,18 +45,18 @@ export class MeetingHud extends Component {
                 voted: (flags & PlayerVoteAreaFlags.DidVote) !== 0,
                 dead: (flags & PlayerVoteAreaFlags.IsDead) !== 0
             }
-            
+
             state.votedFor = state.votedFor < 10 ? state.votedFor : -1;
 
             this.states.set(playerId, state);
         }
-        
+
         this.emit("update", this.states);
     }
 
     OnDeserialize(datalen: number, data: Buffer): number {
         const reader = new BufferReader(data);
-        
+
         const updateMask = reader.packed();
 
         const updated = new Map<number, VotePlayerState>();

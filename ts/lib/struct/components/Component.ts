@@ -1,11 +1,11 @@
 import { EventEmitter } from "events";
 
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
 export class Component extends EventEmitter {
     name: string;
     classname: string;
-    
+
     constructor(public client: AmongusClient, public netid: number) {
         super();
     }

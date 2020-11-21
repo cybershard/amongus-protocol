@@ -8,16 +8,16 @@ import {
     PayloadID,
     RPCID,
     TaskBarUpdate
-} from "./constants/Enums.js";
+} from "./constants/Enums";
 
 import {
     GameListClientBoundTag,
     GameOptionsData,
     Packet
-} from "./interfaces/Packets.js";
+} from "./interfaces/Packets";
 
-import { BufferWriter } from "./util/BufferWriter.js";
-import { UnlerpValue } from "./util/Lerp.js";
+import { BufferWriter } from "./util/BufferWriter";
+import { UnlerpValue } from "./util/Lerp";
 
 export function composeGameOptions(options: Partial<GameOptionsData>) {
     options.version = options.version ?? 3;
@@ -46,17 +46,17 @@ export function composeGameOptions(options: Partial<GameOptionsData>) {
     if (options.version === 2 || options.version === 3 || options.version === 4) {
         bwrite.uint8(options.emergencyCooldown ?? 15);
     }
-    
+
     if (options.version === 3 || options.version === 4) {
         bwrite.bool(options.confirmEjects ?? true);
         bwrite.bool(options.visualTasks ?? true);
     }
-    
+
     if (options.version === 4) {
         bwrite.bool(options.anonymousVoting ?? false);
         bwrite.uint8(options.taskBarUpdates ?? TaskBarUpdate.Always);
     }
-    
+
     writer.packed(bwrite.size);
     writer.write(bwrite);
 
@@ -69,7 +69,7 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
     const writer = new BufferWriter;
 
     writer.uint8(packet.op);
-    
+
     if (packet.op === PacketID.Reliable) {
         packet.reliable = true;
     }
@@ -276,7 +276,7 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                                                 pwrite.packed(player.skin);
                                                 pwrite.byte(player.flags);
                                                 pwrite.uint8(player.num_tasks);
-                                                
+
                                                 for (let i = 0; i < player.num_tasks; i++) {
                                                     const task = player.tasks[i];
 
@@ -360,7 +360,7 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                     case PayloadID.MasterServerList:
                         writer.uint8(0x01);
                         writer.uint8(payload.num_servers);
-                        
+
                         for (let i = 0; i < payload.servers.length; i++) {
                             const server = payload.servers[i];
                             const swrite = new BufferWriter;
@@ -379,10 +379,10 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                             switch (payload.tag) {
                                 case GameListClientBoundTag.List:
                                     const list_writer = new BufferWriter;
-                                    
+
                                     for (let i = 0; i < payload.games.length; i++) {
                                         const game = payload.games[i];
-        
+
                                         const game_writer = new BufferWriter;
                                         game_writer.bytes(game.ip.split(".").map(val => parseInt(val)));
                                         game_writer.uint16LE(game.port);
@@ -393,12 +393,12 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                                         game_writer.uint8(game.map);
                                         game_writer.uint8(game.imposters);
                                         game_writer.uint8(game.max_players);
-        
+
                                         list_writer.uint16LE(game_writer.size);
                                         list_writer.uint8(0x00);
                                         list_writer.write(game_writer);
                                     }
-        
+
                                     writer.uint16LE(list_writer.size);
                                     writer.uint8(0x00);
                                     writer.write(list_writer);
@@ -417,7 +417,7 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                         }
                         break;
                 }
-                
+
                 writer.goto(lenpos);
                 writer.uint16LE(writer.buffer.slice(lenpos + 3).byteLength); // Length of the payload (not including the type).
             }

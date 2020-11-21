@@ -1,25 +1,25 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { GameObject } from "./GameObject.js"
+import { GameObject } from "./GameObject"
 
-import { ShipStatus as ShipStatusComponent } from "../components/ShipStatus.js"
+import { ShipStatus as ShipStatusComponent } from "../components/ShipStatus"
 
 import {
     SpawnID,
     SystemType
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { ComponentData } from "../../interfaces/Packets.js"
-import { Game } from "../Game.js"
+import { ComponentData } from "../../interfaces/Packets"
+import { Game } from "../Game"
 
-import { SwitchSystem } from "../systems/SwitchSystem.js";
-import { MedScanSystem } from "../systems/MedScanSystem.js";
-import { ReactorSystem } from "../systems/ReactorSystem.js";
-import { LifeSuppSystem } from "../systems/LifeSuppSystem.js";
-import { SecuritySystem } from "../systems/SecuritySystem.js";
-import { HudOverrideSystem } from "../systems/HudOverrideSystem.js";
-import { DoorsSystem } from "../systems/DoorsSystem.js";
-import { SabotageSystem } from "../systems/SabotageSystem.js";
+import { SwitchSystem } from "../systems/SwitchSystem";
+import { MedScanSystem } from "../systems/MedScanSystem";
+import { ReactorSystem } from "../systems/ReactorSystem";
+import { LifeSuppSystem } from "../systems/LifeSuppSystem";
+import { SecuritySystem } from "../systems/SecuritySystem";
+import { HudOverrideSystem } from "../systems/HudOverrideSystem";
+import { DoorsSystem } from "../systems/DoorsSystem";
+import { SabotageSystem } from "../systems/SabotageSystem";
 
 export class ShipStatus extends GameObject {
     spawnid: SpawnID.ShipStatus;
@@ -49,7 +49,7 @@ export class ShipStatus extends GameObject {
 
         this.ShipStatus.systems[SystemType.Doors].SetDoors(13);
         this.ShipStatus.OnSpawn(components[0].datalen, components[0].data);
-        
+
         if (parent instanceof GameObject) {
             parent.addChild(this);
         }

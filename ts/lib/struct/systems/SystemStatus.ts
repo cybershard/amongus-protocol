@@ -2,9 +2,9 @@ import { EventEmitter } from "events";
 
 import {
     SystemType
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { BufferReader } from "../../util/BufferReader.js";
+import { BufferReader } from "../../util/BufferReader";
 
 export class SystemStatus extends EventEmitter {
     type: SystemType;

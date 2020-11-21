@@ -3,9 +3,9 @@ import {
     MapID,
     MasterServers,
     DebugOptions
-} from "../index.js"
+} from "../index"
 
-import { Int2Code } from "../lib/util/Codes.js";
+import { Int2Code } from "../lib/util/Codes";
 
 (async () => {
     const client = new AmongusClient({

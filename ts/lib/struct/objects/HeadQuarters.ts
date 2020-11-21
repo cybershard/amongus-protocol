@@ -1,23 +1,23 @@
-import { AmongusClient } from "../../Client.js"
+import { AmongusClient } from "../../Client"
 
-import { GameObject } from "./GameObject.js"
+import { GameObject } from "./GameObject"
 
-import { ShipStatus } from "../components/ShipStatus.js"
+import { ShipStatus } from "../components/ShipStatus"
 
 import {
     SpawnID,
     SystemType
-} from "../../constants/Enums.js"
+} from "../../constants/Enums"
 
-import { ComponentData } from "../../interfaces/Packets.js"
-import { Game } from "../Game.js"
+import { ComponentData } from "../../interfaces/Packets"
+import { Game } from "../Game"
 
-import { SwitchSystem } from "../systems/SwitchSystem.js";
-import { MedScanSystem } from "../systems/MedScanSystem.js";
-import { ReactorSystem } from "../systems/ReactorSystem.js";
-import { LifeSuppSystem } from "../systems/LifeSuppSystem.js";
-import { HQHudOverrideSystem } from "../systems/HQHudOverrideSystem.js";
-import { SabotageSystem } from "../systems/SabotageSystem.js";
+import { SwitchSystem } from "../systems/SwitchSystem";
+import { MedScanSystem } from "../systems/MedScanSystem";
+import { ReactorSystem } from "../systems/ReactorSystem";
+import { LifeSuppSystem } from "../systems/LifeSuppSystem";
+import { HQHudOverrideSystem } from "../systems/HQHudOverrideSystem";
+import { SabotageSystem } from "../systems/SabotageSystem";
 
 export class HeadQuarters extends GameObject {
     spawnid: SpawnID.HeadQuarters;
@@ -44,7 +44,7 @@ export class HeadQuarters extends GameObject {
         }
 
         this.ShipStatus.OnSpawn(components[0].datalen, components[0].data);
-        
+
         if (parent instanceof GameObject) {
             parent.addChild(this);
         }

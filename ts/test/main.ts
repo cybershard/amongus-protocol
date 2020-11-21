@@ -6,7 +6,7 @@ import {
     PlayerClient,
     DebugOptions,
     GameObject
-} from "../index.js"
+} from "../index"
 
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
@@ -21,7 +21,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
     const game = await client.join(process.argv[2]);
     await game.awaitSpawns();
-    
+
     game.GameData.GameData.on("playerData", player => {
         console.log(player);
     });
